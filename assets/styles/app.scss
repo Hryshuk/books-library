@@ -1,0 +1,20 @@
+// customize some Bootstrap variables
+//$primary: darken(#428bca, 20%);
+
+// the ~ allows you to reference things in node_modules
+@import "~bootstrap/scss/bootstrap";
+
+main > .container {
+  padding: 60px 15px 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  footer {
+    margin-bottom: 0;
+    margin-top: auto;
+  }
+}

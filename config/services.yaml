@@ -28,3 +28,17 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    admin.book:
+        class: App\Admin\BookAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Book, manager_type: orm, label: Books }
+    admin.author:
+        class: App\Admin\AuthorAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Author, manager_type: orm, label: Authors }
+
+    book_number.listener:
+        class: App\EventListener\BookNumberListener
+        tags:
+            - { name: doctrine.event_listener, event: postFlush, method: postFlush }

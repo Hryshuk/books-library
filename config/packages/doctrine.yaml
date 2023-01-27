@@ -16,3 +16,11 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+            SonataUserBundle: ~
+
+#            SonataUserBundle: ~
+#
+#        entity_managers:
+#            default:
+#                mappings:
+#                    SonataUserBundle: ~

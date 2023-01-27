@@ -1,21 +1,79 @@
-version: '3'
+#version: '3'
+#
+#services:
+####> doctrine/doctrine-bundle ###
+#  database:
+#    image: postgres:${POSTGRES_VERSION:-15}-alpine
+#    environment:
+#      POSTGRES_DB: ${POSTGRES_DB:-app}
+#      # You should definitely change the password in production
+#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+#      POSTGRES_USER: ${POSTGRES_USER:-app}
+#    volumes:
+#      - database_data:/var/lib/postgresql/data:rw
+#      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+#      # - ./docker/db/data:/var/lib/postgresql/data:rw
+####< doctrine/doctrine-bundle ###
+#
+#volumes:
+####> doctrine/doctrine-bundle ###
+#  database_data:
+####< doctrine/doctrine-bundle ###
 
+version: '3'
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-15}-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
+  apache:
+    build: .docker/apache
+    container_name: books-library_apache
+    ports:
+      - 80:80
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - .docker/config/vhosts:/etc/apache2/sites-enabled
+      - .:/home/wwwroot/books-library
+    depends_on:
+      - php
+
+  mysql:
+    image: mysql
+    command: "--default-authentication-plugin=mysql_native_password"
+    container_name: books-library_mysql
+    volumes:
+      - .docker/data/db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: books-library
+      MYSQL_USER: books-library
+      MYSQL_PASSWORD: books-library
+    ports:
+      - 33066:3306
+
+  php:
+    build: .docker/php
+    container_name: books-library_php
+    volumes:
+      - .:/home/wwwroot/books-library
+    environment:
+      - maildev_host=books-library_maildev
+    depends_on:
+      - maildev
+      - mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: books-library_phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    ports:
+      - 8080:80
+    links:
+      - mysql
+
+  maildev:
+    image: djfarrelly/maildev
+    container_name: books-library_maildev
+    ports:
+      - 8001:80
 
 volumes:
-###> doctrine/doctrine-bundle ###
-  database_data:
-###< doctrine/doctrine-bundle ###
+  mysql:

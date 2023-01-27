@@ -1,0 +1,46 @@
+{% extends 'books/layout.html.twig' %}
+
+{% block title %}Books{% endblock %}
+
+
+{% block page_contents %}
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Published</th>
+                    <th>Authors</th>
+                    <th>Cover</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for book in books %}
+                        <tr data-id="{{ book.id }}">
+                            <td >{{ book.name }}</td>
+                            <td>{{ book.description }}</td>
+                            <td>{{ book.published | date("Y") }}</td>
+                            <td>
+                                {% for key, author in book.authors %}
+                                    {% if key == 0 %}
+                                        {{ author }}
+                                    {% else %}
+                                        , {{ author }}
+                                    {% endif %}
+                                {% endfor %}
+
+                            </td>
+                            <td>
+                                <div class="image" style="background-image: url({{ book.bookCover }})"></div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

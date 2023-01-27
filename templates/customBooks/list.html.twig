@@ -1,0 +1,52 @@
+{% extends 'customBooks/layout.html.twig' %}
+
+{% block title %}Books{% endblock %}
+
+
+{% block page_contents %}
+
+    <h2 class="mt-5">SQL</h2>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Authors Number</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for name, number in books %}
+                    <tr>
+                        <td>{{ name }}</td>
+                        <td>{{ number }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <h2 class="mt-5">ORM</h2>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Authors Number</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for name, number in booksORM %}
+                    <tr>
+                        <td>{{ name }}</td>
+                        <td>{{ number }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
