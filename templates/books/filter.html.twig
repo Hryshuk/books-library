@@ -1,0 +1,28 @@
+<div class="card mt-3 pb-3">
+    <div class="card-body">
+        {{ form_start(form, {'attr': {'class': 'row row-cols-lg-auto g-3 align-items-center', }}) }}
+        <div class="col-12">
+            {{ form_errors(form) }}
+        </div>
+
+        <div class="col-12">
+            {{ form_row(form.name) }}
+        </div>
+        <div class="col-12">
+            {{ form_row(form.description) }}
+        </div>
+        <div class="col-12">
+            {{ form_row(form.published) }}
+        </div>
+        <div class="col-12">
+            {{ form_row(form.authorId,  {'label': 'Author'}) }}
+        </div>
+        <div class="col-12">
+            <div class="form-group mt-4">
+                {{ form_widget(form.submit, {'label': 'Search'}) }}
+                {{ form_widget(form.reset, {'label': 'Reset', attr: {'onClick': "document.location.href='"~path('app_books_list')~"';"}}) }}
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>

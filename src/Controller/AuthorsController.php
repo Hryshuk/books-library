@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Author;
+use App\Form\AuthorType;
 use App\Repository\AuthorRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -32,7 +35,7 @@ class AuthorsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_authors_view")
+     * @Route("/{id}", name="app_authors_view", requirements={"id"="\d+"})
      */
     public function view($id): Response
     {
@@ -42,20 +45,45 @@ class AuthorsController extends AbstractController
     }
 
     /**
-     * @Route("/edit/{id}", name="app_authors_edit")
+     * @Route("/new", name="app_authors_new")
      */
-    public function edit($id): Response
+    public function new(Request $request): Response
+    {
+        $author = new Author();
+        $form = $this->createForm(AuthorType::class, $author);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->authorRepository->add($author);
+
+            return $this->redirectToRoute('app_authors_list');
+        }
+
+        return $this->render('authors/new.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/edit/{id}", name="app_authors_edit", requirements={"id"="\d+"})
+     */
+    public function edit($id, Request $request): Response
     {
         $author = $this->authorRepository->find($id);
         if (!$author) {
             throw $this->createNotFoundException('No author found for id '.$id);
         }
 
-        return $this->render('authors/edit.html.twig', ['author' => $author]);
+        $form = $this->createForm(AuthorType::class, $author);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->authorRepository->add($author);
+
+            return $this->redirectToRoute('app_authors_list');
+        }
+
+        return $this->render('authors/edit.html.twig', ['author' => $author, 'form' => $form->createView()]);
     }
 
     /**
-     * @Route("/delete/{id}", name="app_authors_delete")
+     * @Route("/delete/{id}", name="app_authors_delete", requirements={"id"="\d+"})
      */
     public function delete($id, EntityManagerInterface $em): Response
     {
@@ -64,8 +92,7 @@ class AuthorsController extends AbstractController
             throw $this->createNotFoundException('No author found for id '.$id);
         }
 
-        $em->remove($author);
-        $em->flush();
+        $this->authorRepository->remove($author);
 
         return $this->redirectToRoute('app_authors_list');
     }

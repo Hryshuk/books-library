@@ -26,3 +26,11 @@ a {
     text-decoration: underline;
   }
 }
+
+label.required:before {
+  content: "*";
+}
+
+.form-error-icon {
+  display: none;
+}

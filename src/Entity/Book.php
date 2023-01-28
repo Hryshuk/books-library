@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\BookRepository;
 use App\Entity\BookListener;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=BookRepository::class)
@@ -23,6 +24,14 @@ class Book
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 255,
+     *      minMessage = "Name must be at least {{ limit }} characters long",
+     *      maxMessage = "Name cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false
+     * )
      */
     private $name;
 
@@ -33,6 +42,7 @@ class Book
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\NotBlank
      */
     private $published;
 

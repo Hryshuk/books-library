@@ -5,9 +5,18 @@
 
 {% block content %}
 
-    <h1 class="mt-5">Books</h1>
+    <div class="row mt-5">
+        <div class="col-6">
+            <h1>Books</h1>
+        </div>
+        <div class="col-6">
+            <a href="{{ path('app_books_new') }}" type="button" class="mt-2 btn btn-success float-end"><i class="fa-solid fa-plus"></i>&nbsp;Add new</a>
+        </div>
+    </div>
 
-    <div class="row">
+    {% include 'books/filter.html.twig' %}
+
+    <div class="row mt-3">
         <div class="col-12">
             <table class="table table-hover">
                 <thead>
@@ -21,28 +30,28 @@
                 </tr>
                 </thead>
                 <tbody>
-                    {% for book in books %}
-                        <tr data-id="{{ book.id }}">
-                            <td >{{ book.name }}</td>
-                            <td>{{ book.description }}</td>
-                            <td>{{ book.published | date("Y") }}</td>
-                            <td>{{ book.authors | map(author => "<a href='#{path('app_authors_view', {'id': author.id})}'>#{author.firstName} #{author.lastName}</>") | join(', ') | raw }} </td>
-                            <td>
-                                <div class="image" style="background-image: url({{ book.bookCover }})"></div>
-                            </td>
-                            <td>
-                                <a href="{{ path('app_books_view', {'id': book.id}) }}" title="View" type="button" class="btn btn-outline-primary btn-sm">
-                                    <i class=" fa-solid fa-eye"></i>
-                                </a>
-                                <a href="{{ path('app_books_edit', {'id': book.id}) }}" title="Edit" type="button" class="btn btn-outline-success btn-sm">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-                                <a href="{{ path('app_books_delete', {'id': book.id}) }}" title="Delete" onClick="return confirm('Are you sure you want to delete this item?');" type="button" class="btn btn-outline-dark btn-sm">
-                                    <i class="fa-sharp fa-solid fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
+                {% for book in books %}
+                    <tr data-id="{{ book.id }}">
+                        <td >{{ book.name }}</td>
+                        <td>{{ book.description }}</td>
+                        <td>{{ book.published | date("Y") }}</td>
+                        <td>{{ book.authors | map(author => "<a href='#{path('app_authors_view', {'id': author.id})}'>#{author.firstName} #{author.lastName}</>") | join(', ') | raw }} </td>
+                        <td>
+                            <div class="image" style="background-image: url({{ book.bookCover }})"></div>
+                        </td>
+                        <td>
+                            <a href="{{ path('app_books_view', {'id': book.id}) }}" title="View" type="button" class="btn btn-outline-primary btn-sm">
+                                <i class=" fa-solid fa-eye"></i>
+                            </a>
+                            <a href="{{ path('app_books_edit', {'id': book.id}) }}" title="Edit" type="button" class="btn btn-outline-success btn-sm">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <a href="{{ path('app_books_delete', {'id': book.id}) }}" title="Delete" onClick="return confirm('Are you sure you want to delete this item?');" type="button" class="btn btn-outline-secondary btn-sm">
+                                <i class="fa-sharp fa-solid fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>

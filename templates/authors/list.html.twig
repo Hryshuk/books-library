@@ -4,7 +4,14 @@
 
 {% block content %}
 
-    <h1 class="mt-5">Authors</h1>
+    <div class="row mt-5">
+        <div class="col-6">
+            <h1>Authors</h1>
+        </div>
+        <div class="col-6">
+            <a href="{{ path('app_authors_new') }}" type="button" class="mt-2 btn btn-success float-end"><i class="fa-solid fa-plus"></i>&nbsp;Add new</a>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-12">
@@ -30,7 +37,7 @@
                                 <a href="{{ path('app_authors_edit', {'id': author.id}) }}" title="Edit" type="button" class="btn btn-outline-success btn-sm">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <a href="{{ path('app_authors_delete', {'id': author.id}) }}" title="Delete" onClick="return confirm('Are you sure you want to delete this item?');" type="button" class="btn btn-outline-dark btn-sm">
+                                <a href="{{ path('app_authors_delete', {'id': author.id}) }}" title="Delete" onClick="return confirm('Are you sure you want to delete this item?');" type="button" class="btn btn-outline-secondary btn-sm">
                                     <i class="fa-sharp fa-solid fa-trash"></i>
                                 </a>
                             </td>

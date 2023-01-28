@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Books{% endblock %}
+{% block title %}Authors{% endblock %}
 
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
 
 {% block content %}
 
-    <h1 class="mt-5">Edit book "{{ book.name }}"</h1>
+    <h1 class="mt-5">Create new author</h1>
 
     {{ form_start(form, {'attr': {'class': 'row g-3'}}) }}
         <div class="col-12">
@@ -14,23 +14,14 @@
         </div>
 
         <div class="col-12">
-            {{ form_row(form.name) }}
+            {{ form_row(form.firstName) }}
         </div>
         <div class="col-12">
-            {{ form_row(form.description) }}
-        </div>
-        <div class="col-12">
-            {{ form_row(form.published) }}
-        </div>
-        <div class="col-12">
-            {{ form_row(form.authors) }}
-        </div>
-        <div class="col-12">
-            {{ form_row(form.bookCover) }}
+            {{ form_row(form.lastName) }}
         </div>
         <div class="col-12">
             <div class="form-group mt-4">
-                <a href="{{ path('app_books_list') }}" type="button" class="btn btn-outline-primary"><i class="fa-solid fa-angle-left"></i>&nbsp;Back</a>
+                <a href="{{ path('app_authors_list') }}" type="button" class="btn btn-outline-primary"><i class="fa-solid fa-angle-left"></i>&nbsp;Back</a>
                 {{ form_widget(form.submit, {'label': 'Save'}) }}
                 {{ form_widget(form.reset, {'label': 'Reset'}) }}
             </div>

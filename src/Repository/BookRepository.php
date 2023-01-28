@@ -78,4 +78,35 @@ HAVING authorsNumber > 1
         }, []);
     }
 
+    public function findAllByFilter(array $filter)
+    {
+        $query = $this->createQueryBuilder('b');
+
+        foreach ($filter as $field => $value) {
+            if (!empty($value)) {
+                switch ($field) {
+                    case 'name':
+                    case 'description':
+                        $query->andWhere("b.$field LIKE :$field")
+                            ->setParameter($field, "%{$value}%");
+                        break;
+                    case 'published':
+                        $query->andWhere('b.published = :published')
+                            ->setParameter($field, $value);
+                        break;
+                    case 'authorId':
+                        $query->innerJoin('b.authors', 'a', 'WITH', 'a.id = :authorId')
+                            ->setParameter('authorId', $value);
+                        break;
+                }
+            }
+        }
+
+        return $query
+            ->orderBy('b.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 }

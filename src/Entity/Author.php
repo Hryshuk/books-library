@@ -6,6 +6,7 @@ use App\Repository\AuthorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AuthorRepository::class)
@@ -21,11 +22,27 @@ class Author
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 255,
+     *      minMessage = "First Name must be at least {{ limit }} characters long",
+     *      maxMessage = "First Name cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false
+     * )
      */
     private $first_name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 255,
+     *      minMessage = "Last Name must be at least {{ limit }} characters long",
+     *      maxMessage = "Last Name cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false
+     * )
      */
     private $last_name;
 
