@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Authors{% endblock %}
+
+{% block content %}
+
+    <h1 class="mt-5">Edit author "{{ author }}"</h1>
+
+    <table class="table mt-4">
+        <tbody>
+        <tr>
+            <th scope="row">First Name</th>
+            <td>{{ author.firstName }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Last Name</th>
+            <td>{{ author.lastName }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Books Number</th>
+            <td>{{ author.booksNumber }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_authors_list') }}" type="button" class="btn btn-outline-primary mt-3"><i class="fa-solid fa-angle-left"></i>&nbsp;Back</a>
+
+{% endblock %}

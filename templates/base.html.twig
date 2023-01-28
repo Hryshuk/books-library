@@ -27,13 +27,13 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav me-auto mb-2 mb-md-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ path('homepage') }}">Books</a>
+                            <a class="nav-link {% if app.request.get( '_route' ) in ['app_books_list', 'app_books_view', 'app_books_edit'] %} active {% endif %}" href="{{ path('app_books_list') }}">Books</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_authors_list') }}">Authors</a>
+                            <a class="nav-link {% if app.request.get( '_route' ) in ['app_authors_list', 'app_authors_view', 'app_authors_edit'] %} active {% endif %}" href="{{ path('app_authors_list') }}">Authors</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_custombooks_list') }}">Books(>1 authors)</a>
+                            <a class="nav-link {% if app.request.get( '_route' ) in ['app_custombooks_list'] %} active {% endif %}" href="{{ path('app_custombooks_list') }}">Books(>1 authors)</a>
                         </li>
                     </ul>
                     <form class="d-flex" role="search">
@@ -54,7 +54,7 @@
 
     <footer class="footer mt-auto py-3 bg-light">
         <div class="container">
-            <span class="text-muted">Place sticky footer content here.</span>
+            <span class="text-muted">&copy; 2023 sadgroup.com</span>
         </div>
     </footer>
 {% endblock %}

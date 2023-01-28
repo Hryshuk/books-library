@@ -1,9 +1,10 @@
-{% extends 'authors/layout.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block title %}Books{% endblock %}
+{% block title %}Authors{% endblock %}
 
+{% block content %}
 
-{% block page_contents %}
+    <h1 class="mt-5">Authors</h1>
 
     <div class="row">
         <div class="col-12">
@@ -13,6 +14,7 @@
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Books Number</th>
+                    <th style="width: 130px">&nbsp;</th>
                 </tr>
                 </thead>
                 <tbody data-books-target="list">
@@ -21,6 +23,17 @@
                             <td>{{ author.firstName }}</td>
                             <td>{{ author.lastName }}</td>
                             <td>{{ author.booksNumber }}</td>
+                            <td>
+                                <a href="{{ path('app_authors_view', {'id': author.id}) }}" title="View" type="button" class="btn btn-outline-primary btn-sm">
+                                    <i class=" fa-solid fa-eye"></i>
+                                </a>
+                                <a href="{{ path('app_authors_edit', {'id': author.id}) }}" title="Edit" type="button" class="btn btn-outline-success btn-sm">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                                <a href="{{ path('app_authors_delete', {'id': author.id}) }}" title="Delete" onClick="return confirm('Are you sure you want to delete this item?');" type="button" class="btn btn-outline-dark btn-sm">
+                                    <i class="fa-sharp fa-solid fa-trash"></i>
+                                </a>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Books{% endblock %}
+
+{% block content %}
+
+    <h1 class="mt-5">Edit book "{{ book.name }}"</h1>
+
+    <table class="table mt-4">
+        <tbody>
+        <tr>
+            <th scope="row">Name</th>
+            <td>{{ book.name }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Description</th>
+            <td>{{ book.description }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Published</th>
+            <td>{{ book.published | date("Y") }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Authors</th>
+            <td>{{ book.authors | map(author => "#{author.firstName} #{author.lastName}")|join(', ') }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Cover</th>
+            <td>{{ book.bookCover }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_books_list') }}" type="button" class="btn btn-outline-primary mt-3"><i class="fa-solid fa-angle-left"></i>&nbsp;Back</a>
+
+{% endblock %}
