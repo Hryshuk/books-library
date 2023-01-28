@@ -1,0 +1,26 @@
+sonata_admin:
+    title: 'Books Libriry'
+    #title_logo: 'images/vecteezy_book-read-library-study-solid-icon-vector-illustration_.jpg'
+    dashboard:
+        blocks:
+            - { type: sonata.admin.block.admin_list, position: left }
+        groups:
+            books:
+                on_top: true
+                label: Books
+                translation_domain: ~
+                icon: '<i class="fas fa-book"></i>'
+                items:
+                    - admin.book
+            authors:
+                on_top: true
+                label: Authors
+                translation_domain: ~
+                icon: '<i class="fas fa-user"></i>'
+                items:
+                    - admin.author
+
+sonata_block:
+    blocks:
+        sonata.admin.block.admin_list:
+            contexts: [admin]
