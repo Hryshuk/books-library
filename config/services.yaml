@@ -38,12 +38,7 @@ services:
         tags:
             - { name: sonata.admin, model_class: App\Entity\Author, manager_type: orm, label: Authors }
 
-    book_number.listener:
-        class: App\EventListener\BookNumberListener
+    book_number.subscriber:
+        class: App\EventListener\BookNumberSubscriber
         tags:
-            - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }
-#
-    book_number1.listener:
-        class: App\EventListener\BookNumber1Listener
-        tags:
-            - { name: doctrine.event_listener, event: postFlush, method: postFlush }
+            - { name: doctrine.event_subscriber, connection: default }
