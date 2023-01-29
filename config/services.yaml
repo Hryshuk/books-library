@@ -41,4 +41,9 @@ services:
     book_number.listener:
         class: App\EventListener\BookNumberListener
         tags:
+            - { name: doctrine.event_listener, event: preUpdate, method: preUpdate }
+#
+    book_number1.listener:
+        class: App\EventListener\BookNumber1Listener
+        tags:
             - { name: doctrine.event_listener, event: postFlush, method: postFlush }

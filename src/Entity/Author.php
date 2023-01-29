@@ -56,6 +56,11 @@ class Author
      */
     private $books_number = 0;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     */
+    private $is_updated = false;
+
     public function __construct()
     {
         $this->books = new ArrayCollection();
@@ -132,5 +137,17 @@ class Author
     public function __toString(): string
     {
         return $this->getFirstName() . ' ' . $this->getLastName();
+    }
+
+    public function getIsUpdated(): ?bool
+    {
+        return $this->is_updated;
+    }
+
+    public function setIsUpdated(bool $is_updated): self
+    {
+        $this->is_updated = $is_updated;
+
+        return $this;
     }
 }
