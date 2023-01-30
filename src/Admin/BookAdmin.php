@@ -11,7 +11,6 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Sonata\DoctrineORMAdminBundle\Filter\DateFilter;
@@ -30,7 +29,6 @@ final class BookAdmin extends AbstractAdmin
         $form->add('name', TextType::class)
         ->add('description', TextareaType::class, ['required' => false])
         ->add('published', DateType::class,  ['widget' => 'single_text', 'format' => 'yyyy'])
-        ->add('book_cover', FileType::class, ['required' => false])
         ->add('authors', ModelAutocompleteType::class, [
             'required' => false,
             'property' => ['first_name', 'last_name'],

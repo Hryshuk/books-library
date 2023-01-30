@@ -29,7 +29,7 @@
             <td>
                 {% if (book.bookCover) %}
                     <div class="image">
-                        <a href="{{ asset('uploads/images/' ~ book.bookCover) }}"><img src="{{ asset('uploads/images/' ~ book.bookCover) }}"/></a>
+                        <a href="{{ asset('uploads/images/' ~ book.bookCover) }}" title="Show image"><img src="{{ asset('uploads/images/' ~ book.bookCover) }}"/></a>
                     </div>
                 {% endif %}
             </td>
