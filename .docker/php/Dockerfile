@@ -7,7 +7,7 @@ RUN apt-get update \
     libzip-dev \
     sudo
 
-RUN docker-php-ext-install pdo mysqli pdo pdo_mysql simplexml mbstring zip;
+RUN docker-php-ext-install pdo mysqli pdo pdo_mysql zip;
 
 RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls && \
 	mv composer.phar /usr/local/bin/composer && chmod +x /usr/local/bin/composer
