@@ -5,9 +5,11 @@ RUN apt-get update \
     build-essential locales acl mailutils wget nodejs zip unzip \
     gnupg gnupg1 gnupg2 \
     libzip-dev \
+    libicu-dev \
     sudo
 
 RUN docker-php-ext-install pdo mysqli pdo pdo_mysql zip;
+RUN docker-php-ext-configure intl && docker-php-ext-install intl;
 
 RUN curl -sSk https://getcomposer.org/installer | php -- --disable-tls && \
 	mv composer.phar /usr/local/bin/composer && chmod +x /usr/local/bin/composer

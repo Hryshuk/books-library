@@ -16,7 +16,7 @@
 
     {% include 'books/filter.html.twig' %}
 
-    <div class="row mt-3">
+    <div class="row mt-3 book-list">
         <div class="col-12">
             <table class="table table-hover">
                 <thead>
@@ -37,7 +37,12 @@
                         <td>{{ book.published | date("Y") }}</td>
                         <td>{{ book.authors | map(author => "<a href='#{path('app_authors_view', {'id': author.id})}'>#{author.firstName} #{author.lastName}</>") | join(', ') | raw }} </td>
                         <td>
-                            <div class="image" style="background-image: url({{ book.bookCover }})"></div>
+                            {% if (book.bookCover) %}
+                                <div class="image">
+                                    <img src="{{ asset('uploads/images/' ~ book.bookCover) }}"/>
+                                    <a href="{{ asset('uploads/images/' ~ book.bookCover) }}">View cover</a>
+                                </div>
+                            {% endif %}
                         </td>
                         <td>
                             <a href="{{ path('app_books_view', {'id': book.id}) }}" title="View" type="button" class="btn btn-outline-primary btn-sm">

@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class BookType extends AbstractType
 {
@@ -23,7 +24,23 @@ class BookType extends AbstractType
             ->add('name', TextType::class)
             ->add('description', TextareaType::class, ['required' => false])
             ->add('published', DateType::class,  ['widget' => 'single_text', 'format' => 'yyyy', 'invalid_message' => 'The value "{{ value }}" is not a valid year.'])
-            ->add('bookCover', FileType::class, ['required' => false])
+            ->add('bookCover', FileType::class, [
+                'required' => false,
+                'mapped' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                            'image/png',
+                            'image/svg+xml',
+                            'image/gif'
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid JPG image',
+                    ])
+                ],
+            ])
             ->add('authors', EntityType::class, [
                 'class' => Author::class,
                 'multiple' => true,

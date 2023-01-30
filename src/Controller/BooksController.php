@@ -6,8 +6,8 @@ use App\DTO\BookFilterDTO;
 use App\Entity\Book;
 use App\Form\BookFilterType;
 use App\Form\BookType;
-use App\Repository\AuthorRepository;
 use App\Repository\BookRepository;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,12 +52,18 @@ class BooksController extends AbstractController
     /**
      * @Route("/new", name="app_books_new")
      */
-    public function new(Request $request): Response
+    public function new(Request $request, FileUploader $fileUploader): Response
     {
         $book = new Book();
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $imageFile */
+            $imageFile = $form->get('bookCover')->getData();
+            if ($imageFile) {
+                $imageFileName = $fileUploader->upload($imageFile);
+                $book->setBookCover($imageFileName);
+            }
             $this->bookRepository->add($book);
 
             return $this->redirectToRoute('app_books_list');
@@ -69,7 +75,7 @@ class BooksController extends AbstractController
     /**
      * @Route("/edit/{id}", name="app_books_edit", requirements={"id"="\d+"})
      */
-    public function edit($id, Request $request): Response
+    public function edit($id, Request $request, FileUploader $fileUploader): Response
     {
         $book = $this->bookRepository->find($id);
         if (!$book) {
@@ -79,6 +85,12 @@ class BooksController extends AbstractController
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $imageFile */
+            $imageFile = $form->get('bookCover')->getData();
+            if ($imageFile) {
+                $imageFileName = $fileUploader->upload($imageFile);
+                $book->setBookCover($imageFileName);
+            }
             $this->bookRepository->add($book);
 
             return $this->redirectToRoute('app_books_list');
