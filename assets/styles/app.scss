@@ -6,7 +6,7 @@
 @import '~@fortawesome/fontawesome-free/css/all.min.css';
 
 main > .container {
-  padding: 60px 15px 0;
+  padding: 60px 15px 60px;
 }
 
 body {
@@ -45,5 +45,22 @@ label.required:before {
       height: 30px;
       margin-right: 10px;
     }
+  }
+}
+
+.book-view {
+  img {
+    width: auto;
+    height: 200px;
+  }
+}
+
+.book-edit {
+  .image {
+    margin-top: 20px;
+  }
+  img {
+    width: auto;
+    height: 200px;
   }
 }

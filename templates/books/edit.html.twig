@@ -8,7 +8,7 @@
 
     <h1 class="mt-5">Edit book "{{ book.name }}"</h1>
 
-    {{ form_start(form, {'attr': {'class': 'row g-3'}}) }}
+    {{ form_start(form, {'attr': {'class': 'row g-3 book-edit'}}) }}
         <div class="col-12">
             {{ form_errors(form) }}
         </div>
@@ -27,6 +27,11 @@
         </div>
         <div class="col-12">
             {{ form_row(form.bookCover) }}
+            {% if (book.bookCover) %}
+                <div class="image">
+                    <a href="{{ asset('uploads/images/' ~ book.bookCover) }}"><img src="{{ asset('uploads/images/' ~ book.bookCover) }}"/></a>
+                </div>
+            {% endif %}
         </div>
         <div class="col-12">
             <div class="form-group mt-4">

@@ -6,7 +6,7 @@
 
     <h1 class="mt-5">Book "{{ book.name }}"</h1>
 
-    <table class="table mt-4">
+    <table class="table mt-4 book-view">
         <tbody>
         <tr>
             <th scope="row">Name</th>
@@ -26,7 +26,13 @@
         </tr>
         <tr>
             <th scope="row">Cover</th>
-            <td>{{ book.bookCover }}</td>
+            <td>
+                {% if (book.bookCover) %}
+                    <div class="image">
+                        <a href="{{ asset('uploads/images/' ~ book.bookCover) }}"><img src="{{ asset('uploads/images/' ~ book.bookCover) }}"/></a>
+                    </div>
+                {% endif %}
+            </td>
         </tr>
         </tbody>
     </table>
