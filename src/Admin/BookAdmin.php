@@ -68,29 +68,4 @@ final class BookAdmin extends AbstractAdmin
         ->add('book_cover');
     }
 
-    public function preUpdate(object $book): void
-    {
-//        $authorsArr = [];
-//        $authors = $book->getAuthors();
-//        foreach ($authors as $author) {
-//            $authorsArr[] = $author->getId();
-//        }
-//        $authorsStr = implode(', ', $authorsArr);
-
-//        $conn = $this->entityManager->getConnection();
-//        $sql = '
-//        UPDATE `author`
-//        SET `books_number`=(
-//            SELECT COUNT(`book_author`.`book_id`)
-//            FROM `book_author`
-//            WHERE `book_author`.`author_id` = `author`.`id`
-//        )
-//        ';
-//        //WHERE a.id IN (SELECT b_a.author_id FROM book_author AS b_a WHERE b_a.book_id = :bookId)
-//        $count = $conn->executeUpdate($sql);
-//
-//        var_dump($count);
-//        exit;
-    }
-
 }
