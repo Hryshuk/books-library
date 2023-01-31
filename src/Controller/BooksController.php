@@ -10,6 +10,9 @@ use App\Repository\BookRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\File\Exception\UploadException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -61,8 +64,13 @@ class BooksController extends AbstractController
             /** @var UploadedFile $imageFile */
             $imageFile = $form->get('bookCover')->getData();
             if ($imageFile) {
-                $imageFileName = $fileUploader->upload($imageFile);
-                $book->setBookCover($imageFileName);
+                try {
+                    $imageFileName = $fileUploader->upload($imageFile);
+                    $book->setBookCover($imageFileName);
+                } catch (UploadException $e) {
+                    $form->addError(new FormError("File has not been uploaded. " . $e->getMessage()));
+                    return $this->render('books/new.html.twig', ['form' => $form->createView()]);
+                }
             }
             $this->bookRepository->add($book);
 
@@ -88,8 +96,13 @@ class BooksController extends AbstractController
             /** @var UploadedFile $imageFile */
             $imageFile = $form->get('bookCover')->getData();
             if ($imageFile) {
-                $imageFileName = $fileUploader->upload($imageFile);
-                $book->setBookCover($imageFileName);
+                try {
+                    $imageFileName = $fileUploader->upload($imageFile);
+                    $book->setBookCover($imageFileName);
+                } catch (UploadException $e) {
+                    $form->addError(new FormError("File has not been uploaded. " . $e->getMessage()));
+                    return $this->render('books/edit.html.twig', ['book' => $book, 'form' => $form->createView()]);
+                }
             }
             $this->bookRepository->add($book);
 
