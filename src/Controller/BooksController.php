@@ -48,6 +48,9 @@ class BooksController extends AbstractController
     public function view($id): Response
     {
         $book = $this->bookRepository->find($id);
+        if (!$book) {
+            throw $this->createNotFoundException('No book found for id '.$id);
+        }
 
         return $this->render('books/view.html.twig', ['book' => $book]);
     }

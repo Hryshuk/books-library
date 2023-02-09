@@ -40,6 +40,9 @@ class AuthorsController extends AbstractController
     public function view($id): Response
     {
         $author = $this->authorRepository->find($id);
+        if (!$author) {
+            throw $this->createNotFoundException('No author found for id '.$id);
+        }
 
         return $this->render('authors/view.html.twig', ['author' => $author]);
     }

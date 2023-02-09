@@ -82,9 +82,8 @@ class BookNumberSubscriber implements EventSubscriber
             if ($col instanceof PersistentCollection) {
                 $mapping = $col->getMapping();
                 if (($mapping["sourceEntity"] == Book::class && $mapping["targetEntity"] == Author::class)) {
-                    $conn = $em->getConnection();
-                    $sql = 'UPDATE author AS a SET `is_updated`= 0';
-                    $count = $conn->executeStatement($sql);
+                    $repository = $em->getRepository(Author::class);
+                    $count = $repository->setNeedUpdateBooksNumber();
                 }
             }
         }
@@ -92,19 +91,8 @@ class BookNumberSubscriber implements EventSubscriber
 
     public function postFlush(PostFlushEventArgs $event)
     {
-        $conn = $event->getObjectManager()->getConnection();
-        $sql = '
-        UPDATE author AS a
-        SET
-        `books_number` = (
-            SELECT COUNT(ba.book_id)
-            FROM book_author AS ba
-            WHERE ba.author_id = a.id
-        ),
-        `is_updated` = 1
-        WHERE a.is_updated = 0
-        ';
-        $count = $conn->executeStatement($sql);
+        $repository = $event->getObjectManager()->getRepository(Author::class);
+        $count = $repository->recalculateBooksNumber();
     }
 
 }

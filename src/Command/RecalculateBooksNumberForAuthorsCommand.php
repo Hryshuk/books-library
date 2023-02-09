@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use App\Entity\Author;
+use App\Repository\AuthorRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,9 +14,9 @@ class RecalculateBooksNumberForAuthorsCommand extends Command
 // the name of the command (the part after "bin/console")
 protected static $defaultName = 'app:recalculate-books';
 
-    public function __construct(EntityManagerInterface $objectManager)
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->objectManager = $objectManager;
+        $this->entityManager = $entityManager;
 
         parent::__construct();
     }
@@ -32,19 +34,8 @@ protected static $defaultName = 'app:recalculate-books';
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $conn = $this->objectManager->getConnection();
-        $sql = '
-            UPDATE author AS a
-            SET
-            `books_number` = (
-                SELECT COUNT(ba.book_id)
-                FROM book_author AS ba
-                WHERE ba.author_id = a.id
-            ),
-            `is_updated` = 1
-            WHERE 1
-            ';
-        $count = $conn->executeStatement($sql);
+        $repository = $this->entityManager->getRepository(Author::class);
+        $count = $repository->recalculateBooksNumberForAll();
 
         if ($count) {
             $output->writeln('It was updated ' . $count . ' rows.');

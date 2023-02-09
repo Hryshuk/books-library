@@ -47,6 +47,54 @@ class AuthorRepository extends ServiceEntityRepository
         }
     }
 
+    public function setNeedUpdateBooksNumber()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'UPDATE author SET `is_updated`= 0';
+        $count = $conn->executeStatement($sql);
+
+        return $count;
+    }
+
+    public function recalculateBooksNumberForAll()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = '
+            UPDATE author AS a
+            SET
+            `books_number` = (
+                SELECT COUNT(ba.book_id)
+                FROM book_author AS ba
+                WHERE ba.author_id = a.id
+            ),
+            `is_updated` = 1
+            WHERE 1
+            ';
+        $count = $conn->executeStatement($sql);
+
+        return $count;
+    }
+
+    public function recalculateBooksNumber()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = '
+        UPDATE author AS a
+        SET
+        `books_number` = (
+            SELECT COUNT(ba.book_id)
+            FROM book_author AS ba
+            WHERE ba.author_id = a.id
+        ),
+        `is_updated` = 1
+        WHERE a.is_updated = 0
+        ';
+        $count = $conn->executeStatement($sql);
+
+        return $count;
+    }
+
+
     // /**
     //  * @return Author[] Returns an array of Author objects
     //  */
