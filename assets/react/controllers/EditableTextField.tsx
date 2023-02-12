@@ -82,7 +82,6 @@ const EditableTextField: FC<IEditableFieldProps> = ({
         return (
             <form onSubmit={handlerSubmit}>
                 <input
-                    required
                     value={value}
                     onChange={handlerChange}
                     onBlur={handlerBlur}
