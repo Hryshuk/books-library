@@ -100,7 +100,7 @@ const EditableTextField: FC<IEditableFieldProps> = ({
     };
 
     return (
-        <div onClick={handlerClick} style={{ minHeight: '24px' }}>
+        <div onClick={handlerClick} style={{ minHeight: '24px', cursor: 'pointer' }}>
             {editable.isActive && editable.id === id && editable.name === name ? <Form /> : <span>{initialValue}</span>}
         </div>
     );
