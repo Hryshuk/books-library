@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=AuthorRepository::class)
  */
-class Author
+class Author implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -149,5 +149,20 @@ class Author
         $this->is_updated = $is_updated;
 
         return $this;
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'fullName' => $this->getFirstName() . ' ' . $this->getLastName()
+        ];
     }
 }

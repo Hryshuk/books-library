@@ -6,6 +6,7 @@ use App\DTO\BookFilterDTO;
 use App\Entity\Book;
 use App\Form\BookFilterType;
 use App\Form\BookType;
+use App\Repository\AuthorRepository;
 use App\Repository\BookRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,14 +33,15 @@ class BooksController extends AbstractController
     /**
      * @Route("/",  name="app_books_list")
      */
-    public function list(Request $request): Response
+    public function list(Request $request, AuthorRepository $authorRepository): Response
     {
         $bookFilter = new BookFilterDTO();
         $formFilter = $this->createForm(BookFilterType::class, $bookFilter);
         $formFilter->handleRequest($request);
         $books = $this->bookRepository->findAllByFilter($bookFilter->toArray());
+        $authors = $authorRepository->findAll();
 
-        return $this->render('books/list.html.twig', ['books' => $books, 'form' => $formFilter->createView()]);
+        return $this->render('books/list.html.twig', ['books' => $books, 'form' => $formFilter->createView(), 'authors' => $authors]);
     }
 
     /**

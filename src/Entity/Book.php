@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=BookRepository::class)
  * @ORM\EntityListeners({"BookListener"})
  */
-class Book
+class Book implements \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -71,7 +71,7 @@ class Book
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -95,7 +95,7 @@ class Book
         return $this->published;
     }
 
-    public function setPublished(\DateTimeInterface $published): self
+    public function setPublished(?\DateTimeInterface $published): self
     {
         $this->published = $published;
 
@@ -143,4 +143,22 @@ class Book
         return $this->getName();
     }
 
+    /**
+     * Specify data which should be serialized to JSON
+     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'description' => $this->getDescription(),
+            'published' => $this->getPublished()->format('Y'),
+            'authors' => array_map(fn($author): array => $author->jsonSerialize(), $this->getAuthors()->toArray()),
+            'bookCover' => $this->getBookCover(),
+        ];
+    }
 }

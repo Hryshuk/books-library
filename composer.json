@@ -32,6 +32,7 @@
         "symfony/serializer": "4.4.*",
         "symfony/translation": "4.4.*",
         "symfony/twig-bundle": "4.4.*",
+        "symfony/ux-react": "^2.7",
         "symfony/validator": "4.4.*",
         "symfony/web-link": "4.4.*",
         "symfony/webpack-encore-bundle": "^1.16",

@@ -17,6 +17,13 @@
     {% include 'books/filter.html.twig' %}
 
     <div class="row mt-3 book-list">
+        <div class="col-12"  {{ react_component('Books', {'books': books | map( book => book.jsonSerialize), 'options': authors | map( author => author.jsonSerialize)}) }}>
+            Loading...
+        </div>
+    </div>
+
+{#
+    <div class="row mt-3 book-list">
         <div class="col-12">
             <table class="table table-hover">
                 <thead>
@@ -61,5 +68,6 @@
             </table>
         </div>
     </div>
+#}
 
 {% endblock %}
